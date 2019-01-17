@@ -1,18 +1,34 @@
 # Writing Advanced Web Applications with Go
+# 使用Golang编写大型Web程序
 
 Web development in many programming environments often requires subscribing to some full framework ethos. With [Ruby][6], it’s usually [Rails][7] but could be [Sinatra][8] or something else. With [Python][9], it’s often [Django][10] or [Flask][11]. With [Go][12], it’s…
 
+在多数web编程领域，选定一门语言的同时，同时要求精通它的框架。[Ruby][6] 通常是 [Rails][7] 或是 [Sinatra][8] 等。 而 [Python][9] 的选择通常是 [Django][10] 或 [Flask][11]。 说到 [Go][12]，嗯。。。
+
 If you spend some time in Go communities like the [Go mailing list][13] or the [Go subreddit][14], you’ll find Go newcomers frequently wondering what web framework is best to use. [There][15] [are][16] [quite][17] [a][18] [few][19] [Go][20] [frameworks][21]([and][22] [then][23] [some][24]), so which one is best seems like a reasonable question. Without fail, though, the strong recommendation of the Go community is to [avoid web frameworks entirely][25] and just stick with the standard library as long as possible. Here’s [an example from the Go mailing list][26] and here’s [one from the subreddit][27].
+
+如果你花些时间熟悉go社区的 [Go mailing list][13] 或 [Go subreddit][14]，你会发现go初学者最常问的问题是，哪一个web框架最好。
+当前确实有不少框架。 todo revel gin echo macaron ...
+所以“哪个最好用”确实值得深究一下。保险起见，一般go社区都是推荐 完全不用框架 ，保持尽量仅用标准库。大家都是这么推荐 [1] [2] ...
 
 It’s not bad advice! The Go standard library is very rich and flexible, much more so than many other languages, and designing a web application in Go with just the standard library is definitely a good choice.
 
+这个建议靠谱的！go标准库和其它语言的相比较，非常完善，也很易用。决策仅用go标准库构建web程序绝对没问题。
+
 Even when these Go frameworks call themselves minimalistic, they can’t seem to help themselves avoid using a different request handler interface than the default standard library [http.Handler][28], and I think this is the biggest source of angst about why frameworks should be avoided. If everyone standardizes on [http.Handler][29], then dang, all sorts of things would be interoperable!
+
+虽然，这个框架都自称 **极简** , 它们无法避免替换标准库的 request handler 这件事, 而我觉得这是框架最应该避免的。如果大家都兼容 [http.Handler][29]，事情一定水到渠成。
 
 Before Go 1.7, it made some sense to give in and use a different interface for handling HTTP requests. But now that [http.Request][30] has the [Context][31] and [WithContext][32] methods, there truly isn’t a good reason any longer.
 
+Go 1.7 之前，弃用标准库，自己实现http.Hander还算说得过去，但现在 [http.Request] 提供了 [Context][31] 和 [WithContext][32] 方法，就没什么借口不用标准库了。
+
 I’ve done a fair share of web development in Go and I’m here to share with you both some standard library development patterns I’ve learned and some code I’ve found myself frequently needing. The code I’m sharing is not for use instead of the standard library, but to augment it.
 
+我之前也做过go web编程的分享，在这里我再介绍些标准库的惯用法(development patterns)和我觉得比较通用的代码。这些代码不是用来替代标准库，而是辅助它。
+
 Overall, if this blog post feels like it’s predominantly plugging various little standalone libraries from my[Webhelp non-framework][33], that’s because it is. It’s okay, they’re little standalone libraries. Only use the ones you want!
+
 
 If you’re new to Go web development, I suggest reading the Go documentation’s [Writing Web Applications][34]article first.
 
